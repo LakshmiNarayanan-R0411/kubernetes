@@ -51,8 +51,6 @@ pipeline {
         failure {
             echo 'Pipeline failed. Open Console Output and check the first error.'
         }
-        always {
-            bat 'docker logout || exit /b 0'
-        }
+        
     }
 }
