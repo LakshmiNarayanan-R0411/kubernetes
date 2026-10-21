@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'YOUR_DOCKERHUB_USERNAME/inventory-control-system:latest'
+     DOCKER_IMAGE = "lakshminarayananr0411/inventory-control-system:latest"
     }
 
     stages {
