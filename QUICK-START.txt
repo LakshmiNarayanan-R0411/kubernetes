@@ -1,0 +1,30 @@
+INVENTORY CONTROL SYSTEM — JENKINS + DOCKER + KUBERNETES
+
+IMPORTANT: Before running, replace YOUR_DOCKERHUB_USERNAME in BOTH Jenkinsfile and deployment.yaml with your Docker Hub username.
+
+Assumptions: Windows, Docker Desktop, Jenkins agent running on the same Windows machine, Git, kubectl, and Docker CLI installed; Docker Desktop Kubernetes is enabled and kubectl uses the docker-desktop context.
+
+1. Extract this folder and open PowerShell in it.
+2. Verify prerequisites:
+   docker version
+   kubectl config current-context
+   kubectl get nodes
+3. Replace YOUR_DOCKERHUB_USERNAME in Jenkinsfile and deployment.yaml.
+4. Commit/push all files to your GitHub repository:
+   git add Dockerfile .dockerignore Jenkinsfile deployment.yaml
+   git commit -m "Add Inventory Control System CI/CD deployment"
+   git push
+5. In Jenkins, install Git and Pipeline plugins (Docker Pipeline plugin is not required by this Jenkinsfile).
+6. Manage Jenkins > Credentials > System > Global credentials > Add Credentials:
+   Kind: Username with password
+   ID: dockerhub-creds
+   Username: Docker Hub username
+   Password: Docker Hub access token (recommended)
+7. Create a Pipeline job. Choose Pipeline script from SCM > Git, enter your repo URL and branch main, Script Path Jenkinsfile. Save.
+8. Click Build Now. Expected stages: Checkout, Validate Files, Build Docker Image, Push to Docker Hub, Deploy to Kubernetes.
+9. Verify in PowerShell:
+   kubectl get pods
+   kubectl get svc inventory-control-system-service
+10. Open http://localhost:30007
+
+If Jenkins runs as a Windows service and cannot access Docker or the docker-desktop Kubernetes context, the deploy stage may fail because the service account has a different PATH or kubeconfig. Do not reinstall everything under time pressure: run the Docker build/push in Jenkins, then run `kubectl apply -f deployment.yaml` from your normal PowerShell and verify with the commands above.

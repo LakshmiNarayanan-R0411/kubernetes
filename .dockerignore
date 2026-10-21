@@ -1,0 +1,11 @@
+.git
+.gitignore
+README.md
+Dockerfile
+Jenkinsfile
+deployment.yaml
+pom.xml
+src/
+target/
+__pycache__/
+*.pyc
